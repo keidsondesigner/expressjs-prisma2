@@ -5,7 +5,9 @@ const prisma = new PrismaClient();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
@@ -33,7 +35,7 @@ app.post("/todos", async (req, res) => {
 app.get("/todos/:id", async (req, res) => {
   const id = req.params.id;
   const todo = await prisma.todo.findUnique({
-    where: { id },
+    where: { id: Number(id)  },
   });
 
   return res.json(todo);
@@ -42,7 +44,7 @@ app.get("/todos/:id", async (req, res) => {
 app.put("/todos/:id", async (req, res) => {
   const id = req.params.id;
   const todo = await prisma.todo.update({
-    where: { id },
+    where: { id: Number(id) },
     data: req.body,
   });
 
@@ -52,7 +54,7 @@ app.put("/todos/:id", async (req, res) => {
 app.delete("/todos/:id", async (req, res) => {
   const id = req.params.id;
   await prisma.todo.delete({
-    where: { id },
+    where: { id: Number(id)  },
   });
 
   return res.send({ status: "ok" });
@@ -62,7 +64,7 @@ app.get("/", async (req, res) => {
   res.send(
     `
   <h1>Todo REST API</h1>
-  <h2>Available Routes</h2>
+  <h2>Available Routes.</h2>
   <pre>
     GET, POST /todos
     GET, PUT, DELETE /todos/:id
