@@ -12,51 +12,51 @@ app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
 
-app.get("/todos", async (req, res) => {
-  const todos = await prisma.todo.findMany({
+app.get("/cursos", async (req, res) => {
+  const todos = await prisma.curso.findMany({
     orderBy: { createdAt: "desc" },
   });
 
   res.json(todos);
 });
 
-app.post("/todos", async (req, res) => {
-  const todo = await prisma.todo.create({
+app.post("/cursos", async (req, res) => {
+  const todo = await prisma.curso.create({
     data: {
-      completed: false,
       createdAt: new Date(),
-      text: req.body.text ?? "Empty todo",
+      curso: req.body.curso ?? "Empty curso",
+      categoria: req.body.categoria ?? "Empty category",
     },
   });
 
   return res.json(todo);
 });
 
-app.get("/todos/:id", async (req, res) => {
+app.get("/cursos/:id", async (req, res) => {
   const id = req.params.id;
-  const todo = await prisma.todo.findUnique({
+  const todo = await prisma.curso.findUnique({
     where: { id: Number(id)  },
   });
 
   return res.json(todo);
 });
 
-app.put("/todos/:id", async (req, res) => {
+app.put("/cursos/:id", async (req, res) => {
   const id = req.params.id;
-  const todo = await prisma.todo.update({
+  const todo = await prisma.curso.update({
     where: { id: Number(id) },
     data: {
-      completed: req.body.completed,
-      text: req.body.text,
+      curso: req.body.curso,
+      categoria: req.body.categoria,
     },
   });
 
   return res.json(todo);
 });
 
-app.delete("/todos/:id", async (req, res) => {
+app.delete("/cursos/:id", async (req, res) => {
   const id = req.params.id;
-  await prisma.todo.delete({
+  await prisma.curso.delete({
     where: { id: Number(id)  },
   });
 
@@ -66,11 +66,11 @@ app.delete("/todos/:id", async (req, res) => {
 app.get("/", async (req, res) => {
   res.send(
     `
-  <h1>Todo REST API</h1>
+  <h1>Cursos REST API</h1>
   <h2>Available Routes.</h2>
   <pre>
-    GET, POST /todos
-    GET, PUT, DELETE /todos/:id
+    GET, POST /cursos
+    GET, PUT, DELETE /cursos/:id
   </pre>
   `.trim(),
   );

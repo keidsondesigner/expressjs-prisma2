@@ -10,9 +10,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Todo {
+model Curso {
   id        Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
-  text      String
-  completed Boolean
+  curso     String
+  categoria String
 }
