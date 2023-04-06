@@ -45,7 +45,10 @@ app.put("/todos/:id", async (req, res) => {
   const id = req.params.id;
   const todo = await prisma.todo.update({
     where: { id: Number(id) },
-    data: req.body,
+    data: {
+      completed: req.body.completed,
+      text: req.body.text,
+    },
   });
 
   return res.json(todo);
