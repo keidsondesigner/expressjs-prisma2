@@ -67,7 +67,7 @@ app.get("/", async (req, res) => {
   res.send(
     `
   <h1>Cursos REST API</h1>
-  <h2>Available Routes.</h2>
+  <h2>Available Routes</h2>
   <pre>
     GET, POST /cursos
     GET, PUT, DELETE /cursos/:id
